@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { render } from 'react-dom'
 import printer from 'printer'
+import style from './style.scss'
 
 class App extends Component {
   state = {

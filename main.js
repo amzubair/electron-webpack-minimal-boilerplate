@@ -6,17 +6,28 @@ let win
 
 function createWindow () {
   win = new BrowserWindow({ width: 800, height: 600 })
-
-  win.loadURL(
-    url.format({
-      pathname: path.join(__dirname, '/dist/index.html'),
-      protocol: 'file:',
-      slashes: true
-    })
-  )
+  win.maximize()
+  win.webContents.on('did-finish-load', () => win.show)
 
   if (process.env.NODE_ENV === 'development') {
+    const {
+      default: installExtension,
+      REACT_DEVELOPER_TOOLS
+    } = require('electron-devtools-installer')
+
+    installExtension(REACT_DEVELOPER_TOOLS)
+      .then(name => console.log(`Added Extension:  ${name}`))
+      .catch(err => console.log('An error occurred: ', err))
+    win.loadURL('http://localhost:8080')
     win.webContents.openDevTools()
+  } else {
+    win.loadURL(
+      url.format({
+        pathname: path.join(__dirname, '/dist/index.html'),
+        protocol: 'file:',
+        slashes: true
+      })
+    )
   }
 
   win.on('closed', () => {
