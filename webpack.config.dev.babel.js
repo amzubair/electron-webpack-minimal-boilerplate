@@ -96,6 +96,7 @@ export default {
     hot: true,
     compress: true,
     inline: true,
+    historyApiFallback: true,
     after () {
       spawn('cross-env NODE_ENV=development electron .', {
         shell: true,
